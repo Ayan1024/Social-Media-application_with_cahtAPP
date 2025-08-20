@@ -1,17 +1,21 @@
-import { Provider } from "./components/ui/provider";
+import { Provider } from "./components/ui/provider"; // your chakra provider wrapper
+import { ColorModeProvider } from "./components/ui/color-mode";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
-import { Toaster } from "./components/ui/toaster";
+import { RecoilRoot } from "recoil";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Provider>
-         <Toaster />
-        <App />
-      </Provider>
-    </BrowserRouter>
+    <RecoilRoot>
+      <BrowserRouter>
+        <Provider>
+          <ColorModeProvider>
+            <App />
+          </ColorModeProvider>
+        </Provider>
+      </BrowserRouter>
+    </RecoilRoot>
   </React.StrictMode>
 );

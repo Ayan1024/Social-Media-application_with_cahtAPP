@@ -1,32 +1,30 @@
 import { Box, Flex, Link, Text, VStack, Portal, Menu, Avatar } from "@chakra-ui/react";
-import { toaster } from "./ui/toaster"; //src/components/ui/toaster.jsx
 import { useColorMode } from "./ui/color-mode";
+import { useAppToast } from "./ui/toaster";
 import React from "react";
 import { BsInstagram } from "react-icons/bs";
 import { CgMoreO } from "react-icons/cg";
 
 const UserHeader = () => {
   const { colorMode } = useColorMode();
+  const { showToast } = useAppToast();
 
   const copyURL = () => {
     const currentURL = window.location.href;
     navigator.clipboard.writeText(currentURL).then(() => {
-      console.log("navigator.clipboard");
-      toaster.create({
+      showToast({
         title: "Link copied!",
         description: "Profile URL copied to clipboard.",
         status: "success",
-        duration: 3000,
       });
     });
   };
 
   const sharePROFILE = () => {
-    toaster.create({
+    showToast({
       title: "Coming Soon",
       description: "Share feature is under development.",
       status: "info",
-      duration: 3000,
     });
   };
 
