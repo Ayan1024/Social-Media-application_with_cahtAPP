@@ -26,6 +26,7 @@ const handleImageChange = (e) =>{
   return {
     handleImageChange,
     imgUrl,
+    setImgUrl
   };
 };
 

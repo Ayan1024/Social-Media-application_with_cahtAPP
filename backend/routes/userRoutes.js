@@ -20,6 +20,6 @@ router.post("/logout", logoutUser);
 router.post("/follow/:id", protectRoute, folowUnFollowUser);
 router.put("/update/:id", protectRoute, updateUser);
 
-router.get("/profile/:username", getUserProfile)
+router.get("/profile/:query", protectRoute, getUserProfile)
 
 export default router;

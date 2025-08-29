@@ -3,7 +3,7 @@ import User from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import generateTokenAndSetCookie from "../utils/helpers/generateTokenAndSetCookie.js";
 import { v2 as cloudinary } from "cloudinary";
-
+import mongoose from "mongoose";
 
 //signup function "/api/users/signup"
 const signupUser = async (req, res) => {
@@ -145,7 +145,7 @@ const folowUnFollowUser = async (req, res) => {
 //Profile update function "api/users/update/:id"
 const updateUser = async (req, res) => {
   const { name, email, username, password, bio } = req.body;
-  let {profilePic} = req.body
+  let { profilePic } = req.body;
   const userId = req.user._id;
   try {
     let user = await User.findById(userId);
@@ -164,13 +164,15 @@ const updateUser = async (req, res) => {
       user.password = hashedPassword;
     }
 
-if(profilePic){
-  if (user.profilePic) {
-    await cloudinary.uploader.destroy(user.profilePic.split("/").pop().split(".")[0])
-  }
-  const uploadedResponse = await cloudinary.uploader.upload(profilePic);
-  profilePic = uploadedResponse.secure_url
-}
+    if (profilePic) {
+      if (user.profilePic) {
+        await cloudinary.uploader.destroy(
+          user.profilePic.split("/").pop().split(".")[0]
+        );
+      }
+      const uploadedResponse = await cloudinary.uploader.upload(profilePic);
+      profilePic = uploadedResponse.secure_url;
+    }
 
     user.name = name || user.name;
     user.email = email || user.email;
@@ -192,12 +194,22 @@ if(profilePic){
 
 //getUserProfile function "api/users/profile/:id"
 const getUserProfile = async (req, res) => {
-  const { username } = req.params;
+  // it's help to find the user by their id or username
+
+  const { query } = req.params; //query can be either username or password
 
   try {
-    const user = await User.findOne({ username })
-      .select("-password")
-      .select("-updatedAt");
+    let user;
+
+    if (mongoose.Types.ObjectId.isValid(query)) {
+      user = await User.findOne({ _id: query })
+        .select("-password")
+        .select("-updatedAt"); // when the query is userId
+    } else {
+      user = await User.findOne({ username: query })
+        .select("-password")
+        .select("-updatedAt"); //when the query is username
+    }
 
     if (!user) {
       return res.status(400).json({ error: "user not found" });

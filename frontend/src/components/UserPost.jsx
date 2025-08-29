@@ -3,24 +3,20 @@ import React, { useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import Actions from "./Actions";
-// import { useColorMode } from './ui/color-mode'
 
-export const UserPost = ({postImg, postTitle, likes, replies}) => {
-    // const {colorMode} =  useColorMode()
-    const[liked, setLiked] = useState(false)
+export const UserPost = ({ postImg, postTitle, likes, replies }) => {
+  const [liked, setLiked] = useState(false);
+
   return (
     <Link to={"/markzuckerberg/post/1"}>
       <Flex gap={3} mb={4} py={5}>
         {/* Left section: Avatar + line + triangle avatars */}
         <Flex flexDirection={"column"} alignItems={"center"} minW="60px">
           {/* Top Avatar */}
-          <Avatar.Root shape="full" size="lg">
-            <Avatar.Fallback name="Random User" />
-            <Avatar.Image src="/zuck-avatar.png" />
-          </Avatar.Root>
+          <Avatar size="lg" name="Random User" src="/zuck-avatar.png" />
 
           {/* Vertical line */}
-         <Box
+          <Box
             w="2px"
             bg="gray.300"
             flexGrow={1}
@@ -38,46 +34,37 @@ export const UserPost = ({postImg, postTitle, likes, replies}) => {
           />
 
           {/* Triangle Avatars */}
-         <Box position="relative" w="50px" h="32px" mt={2} mb={"-20px"}>
+          <Box position="relative" w="50px" h="32px" mt={2} mb={"-20px"}>
             {/* Bottom center avatar */}
-            <Box
-              boxSize="20px"
+            <Avatar
+              size="xs"
+              name="User 1"
+              src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04"
               position="absolute"
               bottom="0"
               left="50%"
               transform="translateX(-50%)"
-            >
-              <Avatar.Root shape="full" size="2xs">
-                <Avatar.Fallback name="User 1" />
-                <Avatar.Image src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04" />
-              </Avatar.Root>
-            </Box>
+            />
 
             {/* Top left avatar */}
-            <Box
-              boxSize="20px"
+            <Avatar
+              size="xs"
+              name="User 2"
+              src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04"
               position="absolute"
               top="0"
               left="8px"
-            >
-              <Avatar.Root shape="full" size="2xs">
-                <Avatar.Fallback name="User 2" />
-                <Avatar.Image src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04" />
-              </Avatar.Root>
-            </Box>
+            />
 
             {/* Top right avatar */}
-            <Box
-              boxSize="20px"
+            <Avatar
+              size="xs"
+              name="User 3"
+              src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04"
               position="absolute"
               top="0"
               right="8px"
-            >
-              <Avatar.Root shape="full" size="2xs">
-                <Avatar.Fallback name="User 3" />
-                <Avatar.Image src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04" />
-              </Avatar.Root>
-            </Box>
+            />
           </Box>
         </Flex>
 
@@ -104,19 +91,29 @@ export const UserPost = ({postImg, postTitle, likes, replies}) => {
             </Flex>
           </Flex>
 
-          {/* Add post content here */}
-          <Text fontSize="sm" >
-            {postTitle}
-          </Text>
-          {postImg && (
-          <Box borderRadius={6} overflow={"hidden"}border={"1px solid"}
-          borderColor={"gray.500"}>
-            <Image src={postImg} w={"full"}/>
-          </Box>)}
-        <Flex gap={3} my={1}>
-         <Actions liked={liked} setLiked={setLiked} likes={likes} replies={replies} />
+          {/* Post content */}
+          <Text fontSize="sm">{postTitle}</Text>
 
-        </Flex>
+          {postImg && (
+            <Box
+              borderRadius={6}
+              overflow={"hidden"}
+              border={"1px solid"}
+              borderColor={"gray.500"}
+            >
+              <Image src={postImg} w={"full"} />
+            </Box>
+          )}
+
+          {/* Actions (Like, Reply etc.) */}
+          <Flex gap={3} my={1}>
+            <Actions
+              liked={liked}
+              setLiked={setLiked}
+              likes={likes}
+              replies={replies}
+            />
+          </Flex>
         </Flex>
       </Flex>
     </Link>
