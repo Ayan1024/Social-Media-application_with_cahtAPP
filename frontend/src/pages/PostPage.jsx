@@ -118,7 +118,9 @@ const PostPage = () => {
 				<Comment
 					key={reply._id}
 					reply={reply}
+					postId={currentPost._id}
 					lastReply={reply._id === currentPost.replies[currentPost.replies.length - 1]._id}
+					setPosts={setPosts}
 				/>
 			))}
 		</>

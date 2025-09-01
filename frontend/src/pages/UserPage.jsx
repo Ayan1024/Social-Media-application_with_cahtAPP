@@ -1,4 +1,3 @@
-import { UserPost } from "../components/UserPost";
 import UserHeader from "../components/UserHeader";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -60,7 +59,9 @@ const UserPage = () => {
         </Flex>
       )}
       {posts.map((post) => (
-        <Post key={post._id} post={post} postedBy={post.postedBy.username} />
+        // <Post key={post._id} post={post} postedBy={post.postedBy.username} />
+
+        <Post key={post._id} post={post} />
       ))}
     </>
   );

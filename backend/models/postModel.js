@@ -1,25 +1,7 @@
-import { text } from "express";
 import mongoose from "mongoose";
 
-const postSchema = mongoose.Schema({
-  postedBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
-  text: {
-    type: String,
-    maxLength: 500,
-  },
-  img: {
-    type: String,
-  },
-  likes: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref : "User",
-    default:[],
-  },
-  replies: [{
+const replySchema = new mongoose.Schema(
+  {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -35,11 +17,33 @@ const postSchema = mongoose.Schema({
     username: {
       type: String,
     },
-  },]
-},{
-    timestamps: true,
-});
+  },
+  { timestamps: true } // ✅ this adds createdAt & updatedAt
+);
 
+const postSchema = new mongoose.Schema(
+  {
+    postedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    text: {
+      type: String,
+      maxLength: 500,
+    },
+    img: {
+      type: String,
+    },
+    likes: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "User",
+      default: [],
+    },
+    replies: [replySchema], // ✅ each reply now has createdAt
+  },
+  { timestamps: true }
+);
 
-const Post = mongoose.model('Post', postSchema);
+const Post = mongoose.model("Post", postSchema);
 export default Post;

@@ -6,6 +6,7 @@ import userAtom from '../atoms/userAtom'
 import { Link as RouterLink } from 'react-router-dom'
 import { AiFillHome } from 'react-icons/ai'
 import { RxAvatar } from 'react-icons/rx'
+import Search from "./Search"
 
 const Header = () => {
    const {colorMode, toggleColorMode} =  useColorMode()
@@ -29,6 +30,8 @@ const Header = () => {
           <RxAvatar size={24} />
         </Link>
       )}
+
+      <Search />
     </Flex>
   )
 }
