@@ -129,12 +129,12 @@ const folowUnFollowUser = async (req, res) => {
       // Unfollow
       await User.findByIdAndUpdate(req.user._id, { $pull: { following: id } });
       await User.findByIdAndUpdate(id, { $pull: { followers: req.user._id } });
-      return res.status(200).json({ error: "User unfollowed successfully" });
+      return res.status(200).json({ message: "User unfollowed successfully" });
     } else {
       // Follow
       await User.findByIdAndUpdate(req.user._id, { $push: { following: id } });
       await User.findByIdAndUpdate(id, { $push: { followers: req.user._id } });
-      return res.status(200).json({ error: "User followed successfully" });
+      return res.status(200).json({ message: "User followed successfully" });
     }
   } catch (err) {
     console.error("Error in folowUnFollowUser:", err.message);
@@ -224,6 +224,23 @@ const getUserProfile = async (req, res) => {
     );
   }
 };
+
+const searchUsers = async (req, res) => {
+	const { query } = req.params;
+
+	try {
+		// 'i' flag for case-insensitivity
+		const regex = new RegExp(query, "i");
+
+		const users = await User.find({
+			$or: [{ name: regex }, { username: regex }],
+		}).select("-password -updatedAt"); // Exclude sensitive fields
+
+		res.status(200).json(users);
+	} catch (error) {
+		res.status(500).json({ error: error.message });
+	}
+};
 export {
   signupUser,
   loginUser,
@@ -231,4 +248,5 @@ export {
   folowUnFollowUser,
   updateUser,
   getUserProfile,
+  searchUsers
 };

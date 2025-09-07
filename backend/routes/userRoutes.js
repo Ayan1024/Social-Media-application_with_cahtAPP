@@ -6,6 +6,7 @@ import {
   folowUnFollowUser,
   updateUser,
   getUserProfile,
+  searchUsers,
 } from "../controllers/userController.js";
 import protectRoute from "../middlewares/protectRoute.js";
 
@@ -21,5 +22,5 @@ router.post("/follow/:id", protectRoute, folowUnFollowUser);
 router.put("/update/:id", protectRoute, updateUser);
 
 router.get("/profile/:query", protectRoute, getUserProfile)
-
+router.get("/search/:query", protectRoute, searchUsers);
 export default router;

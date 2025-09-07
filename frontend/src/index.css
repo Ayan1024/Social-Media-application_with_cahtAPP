@@ -21,6 +21,6 @@
 ::-webkit-scrollbar-thumb {
 	background-color: #888;
 }
-::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb:hover {
 	background-color: #555;
 }

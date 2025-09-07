@@ -20,7 +20,7 @@ const Search = () => {
 	const [search, setSearch] = useState("");
 	const [users, setUsers] = useState([]);
 	const [loading, setLoading] = useState(false);
-	const debouncedSearch = useDebounce(search, 500);
+	const debouncedSearch = useDebounce(search, 300);
 
 	useEffect(() => {
 		const getUsers = async () => {
@@ -95,12 +95,26 @@ const Search = () => {
 					{!loading && users.length > 0 && (
 						<VStack align="stretch">
 							{users.map((user) => (
-								<Link as={RouterLink} to={`/${user.username}`} key={user._id} _hover={{ bg: "gray.700", textDecoration: "none" }} p={2} borderRadius="md">
+								<Link
+									as={RouterLink}
+									to={`/${user.username}`}
+									key={user._id}
+									_hover={{ bg: "gray.700", textDecoration: "none" }}
+									p={2}
+									borderRadius="md"
+									// ✅ Add this onClick handler to clear the search on navigation
+									onClick={() => {
+										setSearch("");
+										setUsers([]);
+									}}
+								>
 									<Flex align="center" gap={3}>
 										<Avatar size="sm" src={user.profilePic} />
 										<Box>
 											<Text fontWeight="bold">{user.username}</Text>
-											<Text fontSize="sm" color="gray.light">{user.name}</Text>
+											<Text fontSize="sm" color="gray.light">
+												{user.name}
+											</Text>
 										</Box>
 									</Flex>
 								</Link>
