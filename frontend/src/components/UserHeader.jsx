@@ -155,30 +155,35 @@ const UserHeader = ({ user }) => {
       )}
 
       <Flex w={"full"} justifyContent={"space-between"}>
-        <Flex gap={2} alignItems={"center"}>
+    
           <Text color={"gray.light"}>{followersCount} followers</Text> {/* <- use local count */}
-          <Box w={1} h={1} bg={"gray.light"} borderRadius={"full"}></Box>
-          <Link color={"gray.light"}>instagram.com</Link>
-        </Flex>
-        <Flex>
-          <Box className="icon-container">
-            <BsInstagram size={24} cursor={"pointer"} />
-          </Box>
-          <Box className="icon-container">
-            <Menu>
-              <MenuButton>
-                <CgMoreO size={24} cursor={"pointer"} />
-              </MenuButton>
-              <Portal>
-                <MenuList bg={"gray.dark"}>
-                  <MenuItem bg={"gray.dark"} onClick={copyURL}>
-                    Copy link
-                  </MenuItem>
-                </MenuList>
-              </Portal>
-            </Menu>
-          </Box>
-        </Flex>
+         <Flex>
+  {/* Instagram icon */}
+  <Box className="icon-container" mr={3}> {/* add margin-right for spacing */}
+    <BsInstagram size={24} cursor={"pointer"} />
+  </Box>
+
+  {/* More/Copy menu */}
+  <Box className="icon-container">
+    <Menu>
+      <MenuButton>
+        <CgMoreO size={24} cursor={"pointer"} />
+      </MenuButton>
+      <Portal>
+        <MenuList bg={"gray.dark"} h={"auto"} p={1}> 
+          <MenuItem 
+            bg={"gray.dark"}     // solid bg
+            color={"gray.dark"}   // text color
+          
+            onClick={copyURL}
+          >
+            Copy link
+          </MenuItem>
+        </MenuList>
+      </Portal>
+    </Menu>
+  </Box>
+</Flex>
       </Flex>
 
       <Flex w={"full"}>

@@ -6,11 +6,12 @@ import userRoutes from "./routes/userRoutes.js"
 import postRoutes from "./routes/postRoutes.js"
 import messageRoutes from "./routes/messageRoutes.js"
 import {v2 as cloudinary} from "cloudinary"
+import { app, server } from "./socket/socket.js";
 
 dotenv.config();
 
 connectDB()
-const app = express();
+// const app = express();
 
 app.get("/", (req, res) => {
   res.send("server is running");
@@ -39,6 +40,6 @@ app.use("/api/users", userRoutes)
 app.use("/api/posts", postRoutes)
 app.use("/api/messages", messageRoutes)
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server is running on port http://localhost:${port}`);
 });

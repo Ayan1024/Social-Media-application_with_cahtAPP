@@ -15,8 +15,11 @@ import { useRecoilState } from "recoil";
 import userAtom from "../atoms/userAtom";
 import usePreviewImg from "../hooks/usePreviewImg";
 import useShowToast from "../hooks/useShowToast";
+import { useNavigate } from "react-router-dom"; // ✅ import useNavigate
+
 
 export default function UpdateProfilePage() {
+	 const navigate = useNavigate(); // ✅ initialize navigate
 	const [user, setUser] = useRecoilState(userAtom);
 	const [inputs, setInputs] = useState({
 		name: user.name,
@@ -33,31 +36,37 @@ export default function UpdateProfilePage() {
 	const { handleImageChange, imgUrl } = usePreviewImg();
 
 	const handleSubmit = async (e) => {
-		e.preventDefault();
-		if (updating) return;
-		setUpdating(true);
-		try {
-			const res = await fetch(`/api/users/update/${user._id}`, {
-				method: "Put",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ ...inputs, profilePic: imgUrl }),
-			});
-			const data = await res.json(); // updated user object
-			if (data.error) {
-				showToast("Error", data.error, "error");
-				return;
-			}
-			showToast("Success", "Profile updated successfully", "success");
-			setUser(data);
-			localStorage.setItem("user-threads", JSON.stringify(data.user || data));
-		} catch (error) {
-			showToast("Error", error, "error");
-		} finally {
-			setUpdating(false);
-		}
-	};
+    e.preventDefault();
+    if (updating) return;
+    setUpdating(true);
+
+    try {
+      const res = await fetch(`/api/users/update/${user._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...inputs, profilePic: imgUrl }),
+      });
+
+      const data = await res.json();
+
+      if (data.error) {
+        showToast("Error", data.error, "error");
+        return;
+      }
+
+      showToast("Success", "Profile updated successfully", "success");
+      setUser(data);
+      localStorage.setItem("user-threads", JSON.stringify(data.user || data));
+
+      // ✅ Redirect after successful update
+      navigate(`/${user.username}`);
+      
+    } catch (error) {
+      showToast("Error", error.message || "Network error", "error");
+    } finally {
+      setUpdating(false); // spinner stops here
+    }
+  };
 	return (
 		<form onSubmit={handleSubmit}>
 			<Flex align={"center"} justify={"center"} my={6}>

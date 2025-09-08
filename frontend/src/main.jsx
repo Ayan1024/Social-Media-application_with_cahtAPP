@@ -5,17 +5,20 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { RecoilRoot } from "recoil";
+import { SocketContextProvider } from "./context/SocketContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   // <React.StrictMode>
-    <RecoilRoot>
-      <BrowserRouter>
-        <Provider>
-          <ColorModeProvider>
+  <RecoilRoot>
+    <BrowserRouter>
+      <Provider>
+        <ColorModeProvider>
+          <SocketContextProvider>
             <App />
-          </ColorModeProvider>
-        </Provider>
-      </BrowserRouter>
-    </RecoilRoot>
+          </SocketContextProvider>
+        </ColorModeProvider>
+      </Provider>
+    </BrowserRouter>
+  </RecoilRoot>
   // </React.StrictMode>
 );

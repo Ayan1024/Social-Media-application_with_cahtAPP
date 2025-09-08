@@ -32,10 +32,7 @@ const Search = () => {
 			try {
 				const res = await fetch(`/api/users/search/${debouncedSearch}`);
 				const data = await res.json();
-				if (data.error) {
-					// Handle error if needed
-					return;
-				}
+				if (data.error) return;
 				setUsers(data);
 			} catch (error) {
 				console.error(error);
@@ -48,7 +45,7 @@ const Search = () => {
 	}, [debouncedSearch]);
 
 	return (
-		<Box position="relative">
+		<Box position="relative" w={"full"}>
 			<InputGroup>
 				<InputLeftElement pointerEvents="none">
 					<SearchIcon color="gray.300" />
@@ -58,11 +55,14 @@ const Search = () => {
 					placeholder="Search for a user..."
 					value={search}
 					onChange={(e) => setSearch(e.target.value)}
+					fontSize={{ base: "sm", md: "md" }}
+					pr={search ? "2rem" : "0.5rem"}
 				/>
 				{search && (
 					<InputRightElement>
 						<CloseIcon
 							cursor="pointer"
+							boxSize={3}
 							onClick={() => {
 								setSearch("");
 								setUsers([]);
@@ -84,35 +84,42 @@ const Search = () => {
 					borderRadius="md"
 					boxShadow="lg"
 					zIndex={10}
-					p={2}
+					maxH="300px" // ✅ scroll if too many results
+					overflowY="auto"
 				>
 					{loading && (
 						<Flex justifyContent="center" p={2}>
 							<Spinner />
 						</Flex>
 					)}
-					{!loading && users.length === 0 && <Text p={2}>No user found</Text>}
+					{!loading && users.length === 0 && (
+						<Text p={2} fontSize={{ base: "sm", md: "md" }}>
+							No user found
+						</Text>
+					)}
 					{!loading && users.length > 0 && (
-						<VStack align="stretch">
+						<VStack align="stretch" spacing={1}>
 							{users.map((user) => (
 								<Link
 									as={RouterLink}
 									to={`/${user.username}`}
 									key={user._id}
+									  bg="gray.800" // ✅ solid background
 									_hover={{ bg: "gray.700", textDecoration: "none" }}
-									p={2}
+									p={{ base: 2, md: 3 }}
 									borderRadius="md"
-									// ✅ Add this onClick handler to clear the search on navigation
 									onClick={() => {
 										setSearch("");
 										setUsers([]);
 									}}
 								>
 									<Flex align="center" gap={3}>
-										<Avatar size="sm" src={user.profilePic} />
+										<Avatar size={{ base: "xs", md: "sm" }} src={user.profilePic} />
 										<Box>
-											<Text fontWeight="bold">{user.username}</Text>
-											<Text fontSize="sm" color="gray.light">
+											<Text fontWeight="bold" fontSize={{ base: "sm", md: "md" }}>
+												{user.username}
+											</Text>
+											<Text fontSize={{ base: "xs", md: "sm" }} color="gray.light">
 												{user.name}
 											</Text>
 										</Box>

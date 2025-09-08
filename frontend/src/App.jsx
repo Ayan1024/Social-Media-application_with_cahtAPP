@@ -1,6 +1,6 @@
 import { Box, Button, HStack } from "@chakra-ui/react";
 import { Container } from "@chakra-ui/react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import UserPage from "./pages/UserPage";
 import PostPage from "./pages/PostPage";
 import Header from "./components/Header";
@@ -15,9 +15,10 @@ import ChatPage from "./pages/ChatPage";
 
 function App() {
   const user = useRecoilValue(userAtom)
+  const { pathname } = useLocation();
   return (
     <Box position={"relative"} w={"full"}>
-    <Container maxW="620px" className="bg-red-500">
+    <Container maxW={pathname === "/" ? { base: "620px", md: "900px" } : "620px"}>
       <Header />
 
       <Routes>
@@ -29,7 +30,7 @@ function App() {
         <Route path="/:username/post/:pid" element={<PostPage />} />
          <Route path="/chat" element={ user ? <ChatPage /> : <Navigate to="/auth" />} />
       </Routes>
-      {user && <LogoutButton />}
+      {/* {user && <LogoutButton />} */}
       {user && <CreatePost />}
     </Container>
     </Box>

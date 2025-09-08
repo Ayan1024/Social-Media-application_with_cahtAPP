@@ -14,3 +14,8 @@ export const selectedConversationAtom = atom({
 		userProfilePic: "",
 	},
 });
+
+export const messagesAtom = atom({
+	key: "messagesAtom",
+	default: [], // array of messages for the selected conversation
+});
