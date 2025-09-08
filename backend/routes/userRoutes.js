@@ -7,6 +7,8 @@ import {
   updateUser,
   getUserProfile,
   searchUsers,
+  freezeAccount,
+  getSuggestedUsers,
 } from "../controllers/userController.js";
 import protectRoute from "../middlewares/protectRoute.js";
 
@@ -23,4 +25,6 @@ router.put("/update/:id", protectRoute, updateUser);
 
 router.get("/profile/:query", protectRoute, getUserProfile)
 router.get("/search/:query", protectRoute, searchUsers);
+router.get("/suggested", protectRoute, getSuggestedUsers);
+router.put("/freeze", protectRoute, freezeAccount);
 export default router;
