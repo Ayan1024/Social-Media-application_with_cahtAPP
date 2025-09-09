@@ -15,6 +15,10 @@ const useGetUserProfile = (username) => {
           showToast("Error", data.error, "error");
           return;
         }
+        if (data.isFrozen) {
+          setUser(null)
+          return;
+        }
         setUser(data);
       } catch (error) {
         console.log("Error fetching user:", error);

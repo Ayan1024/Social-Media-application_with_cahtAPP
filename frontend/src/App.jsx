@@ -12,6 +12,7 @@ import LogoutButton from "./components/LogoutButton";
 import UpdateProfilePage from "./pages/UpdateProfilePage";
 import CreatePost from "./components/CreatePost";
 import ChatPage from "./pages/ChatPage";
+import { FreezePage } from "./pages/FreezePage";
 
 function App() {
   const user = useRecoilValue(userAtom)
@@ -25,6 +26,7 @@ function App() {
         <Route path="/" element={user ? <HomePage /> : <Navigate to="/auth" /> } />
         <Route path="/auth" element={ !user ? <AuthPage /> : <Navigate to="/" />} />
         <Route path="/update" element={ user ? <UpdateProfilePage /> : <Navigate to="/auth" />} />
+         <Route path="/freeze" element={ user ? <FreezePage /> : <Navigate to="/auth" />} />
 
         <Route path="/:username" element={<UserPage />} />
         <Route path="/:username/post/:pid" element={<PostPage />} />

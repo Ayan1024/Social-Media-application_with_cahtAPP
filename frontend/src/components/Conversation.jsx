@@ -81,4 +81,4 @@ const Conversation = ({ conversation, isOnline }) => {
 	);
 };
 
-export default Conversation;  
+export default Conversation;

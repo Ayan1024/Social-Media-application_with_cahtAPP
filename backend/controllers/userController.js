@@ -71,6 +71,11 @@ const loginUser = async (req, res) => {
       return res.status(400).json({ error: "invalid username or password" });
     }
 
+    if(user.isFrozen) {
+      user.isFrozen = false;
+      await user.save()
+    }
+
     generateTokenAndSetCookie(user._id, res);
 
     res.status(200).json({
@@ -273,7 +278,7 @@ const freezeAccount = async (req, res) => {
 	try {
 		const user = await User.findById(req.user._id);
 		if (!user) {
-			return res.status(400).json({ error: "User not found" });
+			return res.status(404).json({ error: "User not found" });
 		}
 
 		user.isFrozen = true;
